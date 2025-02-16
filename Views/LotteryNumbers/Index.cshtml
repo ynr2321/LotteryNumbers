@@ -1,0 +1,32 @@
+﻿@using LotteryNumbers.Models
+@model LotteryNumbers
+
+@{
+    Layout = "_Layout";
+}
+
+<h1 class="title">🎉Lottery Numbers🎉</h1>
+
+
+<div class="lottery-container">
+<!-- Main numbers -->
+    @foreach (var num in Model.MainNums)
+    {
+         <div class="ball">@num</div>
+    }
+
+    <!-- Bonus number -->
+    <div class="bonus-container">
+        <div class="ball bonus">
+            @Model.BonusNum
+        </div>
+        <span class="bonus-label">Bonus Number!</span>
+    </div>
+</div>
+
+<!-- Reload Button -->
+<div class="button-container">
+    <button class="reload-button" onclick="location.reload();">
+        Regenerate Numbers
+    </button>
+</div>
