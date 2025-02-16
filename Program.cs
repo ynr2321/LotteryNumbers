@@ -38,7 +38,7 @@ namespace LotteryNumbers
             // Try to auto launch browser, suppress if fail
             try
             {
-                Console.WriteLine($"\nAttempting to launch in browser at '{url}.'\n");
+                Console.WriteLine($"\nAttempting to launch in browser at '{url}. Modify default port in appsettings.json.'\n");
                 app.Lifetime.ApplicationStarted.Register(() =>
                 {
                     Process.Start(new ProcessStartInfo
