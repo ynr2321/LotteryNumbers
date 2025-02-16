@@ -1,5 +1,6 @@
 using LotteryNumbers.Interfaces;
 using LotteryNumbers.Services;
+using System.Diagnostics;
 
 namespace LotteryNumbers
 {
@@ -17,7 +18,7 @@ namespace LotteryNumbers
             var app = builder.Build();
 
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
             app.UseRouting();
 
             app.UseAuthorization();
@@ -28,7 +29,32 @@ namespace LotteryNumbers
                 pattern: "{controller=LotteryNumbers}/{action=Index}/{id?}")
                 .WithStaticAssets();
 
-            app.Run();
+
+
+            // Get default port from config
+            var defaultPort = builder.Configuration["DefaultPort"];
+            var url = $"http://localhost:{defaultPort}";
+
+            // Try to auto launch browser, suppress if fail
+            try
+            {
+                Console.WriteLine($"\nAttempting to launch in browser at '{url}.'\n");
+                app.Lifetime.ApplicationStarted.Register(() =>
+                {
+                    Process.Start(new ProcessStartInfo
+                    {
+                        FileName = url,
+                        UseShellExecute = true // Opens in the default browser
+                    });
+                });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"\nCould not auto-launch browser: {ex.Message} - go to '{url}' manually to view the app.\n");
+                // Suppress
+            }
+
+            app.Run(url);
         }
     }
 }
